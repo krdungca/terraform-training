@@ -36,4 +36,8 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+#environmental creds
 .env
+
+#plans containing stat
+plan-*
