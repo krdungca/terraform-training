@@ -1,73 +1,90 @@
-# Mastering Terraform – Beginner to Expert  
-*Companion repo for the Udemy course: Mastering Terraform – Beginner to Expert*
+# Mastering Terraform – From Beginner to Expert
+*Repository of labs, exercises & projects from the Udemy course*
 
----
+## 📘 Course overview
+This repository contains the hands‑on code, labs, and project work from the Udemy course *Mastering Terraform: From Beginner to Expert*. This course covers 20+ hours of content, more than 60 practical labs, and 5‑6 real‑world AWS projects.
 
-## 📚 Course Companion Overview
-This repository contains lab code, backend config files, and helper scripts created while following the course. It’s organized to reflect environments (dev / staging), reusable modules, and common Terraform workflows.
+### What you will learn
+- How to use Terraform to implement Infrastructure as Code (IaC)
+- Proficiency with Terraform providers, backends, state, modules, workspaces, variables and outputs
+- Hands‑on AWS resource provisioning: EC2, S3, IAM, RDS etc.
+- Preparing for the HashiCorp Certified: Terraform Associate certification
 
----
+### Prerequisites
+- Basic AWS knowledge recommended
+- Basic Git / GitHub familiarity
+- No prior Terraform experience required
 
-## 🔧 Repository Layout
+## 📁 Repository structure
 ```
-├── backend-switcher.sh        # switch Terraform backend (dev ↔ staging)
-├── destroy-env.sh             # destroy chosen environment
-├── dev.tfbackend              # backend config: dev
-├── staging.tfbackend          # backend config: staging
-├── modules/                   # reusable Terraform modules (network, compute, storage...)
-│   ├── network/
-│   ├── compute/
-│   └── storage/
-├── environments/
-│   ├── dev/                   # dev environment root configs
-│   └── staging/               # staging environment root configs
-└── README.md                  # this file
+/exercises         ← step‐by‐step labs from the course
+/projects          ← full projects with real‐world use‑cases
+/modules           ← reusable Terraform modules created during the course
+/examples          ← demo snippets and sample configurations
+README.md          ← this file
 ```
+> *Feel free to adjust folder names based on how you structure your code.*
 
----
-
-## 🚀 Quick Start
-1. Clone repo:
+## 🚀 Getting started
+1. Clone this repository to your local machine.
    ```bash
-   git clone https://github.com/<your-username>/<repo-name>.git
-   cd <repo-name>
+   git clone https://github.com/<your‑username>/terraform‑course.git
    ```
-2. Inspect or switch backend (example):
-   ```bash
-   ./backend-switcher.sh
-   ```
-3. Initialize Terraform:
+2. Navigate into the relevant directory (exercise or project).
+3. Configure your AWS credentials.
+4. Initialize Terraform, plan and apply:
    ```bash
    terraform init
+   terraform plan
+   terraform apply
    ```
-4. Apply (creates infra):
+5. After you’re done, cleanup:
    ```bash
-   terraform apply -auto-approve
+   terraform destroy
    ```
-5. Destroy when finished:
-   ```bash
-   terraform apply -destroy -auto-approve
-   ```
+
+## 🧠 Course milestones
+- Introduction to Infrastructure as Code (IaC)
+- HashiCorp Configuration Language (HCL) basics
+- Providers & resources
+- Data sources, expressions & functions
+- Input variables, locals, outputs
+- State management, remote backends
+- Workspaces & environment‑separation
+- Terraform Modules
+- Importing existing infrastructure
+- Terraform Cloud / Terraform Enterprise integration
+- Real‑world AWS projects
+
+## ✅ Why this course / repo matters
+- Hands‑on lab‑based — you learn by doing.
+- Covers both theory and real AWS infrastructure.
+- Great preparation for Terraform certification and DevOps roles.
+- This repo acts as your “playground” and reference.
+
+## 📚 Additional resources
+- [Terraform Documentation](https://www.terraform.io/docs)
+- [Terraform Associate Exam Guide](https://developer.hashicorp.com/certifications/terraform-associate)
+- [Terraform Registry](https://registry.terraform.io/)
+- [AWS Well‑Architected Framework](https://aws.amazon.com/architecture/well-architected/)
+
+## 📝 Notes / Tips
+- Always run `terraform plan` before `apply`.
+- Use remote backends (S3 + DynamoDB) for team setups.
+- Keep modules reusable and versioned.
+- Separate environments with workspaces or folders.
 
 ---
 
-## 🧩 Key Concepts Covered
-- Terraform lifecycle: `init`, `plan`, `apply`, `destroy`
-- Remote backends and state locking (S3/DynamoDB patterns)
-- Environment separation (dev vs staging)
-- Modules for DRY, reusable infra
-- Variables, outputs, and workspace usage
-- Best practices: state hygiene, minimal secrets in code
+> *This repository is for educational purposes. Please clean up AWS resources to avoid costs.*
 
 ---
 
-## ✅ Usage Notes & Best Practices
-- Do **not** commit provider credentials or sensitive variables. Use environment variables or remote secrets manager.
-- Keep backend files (`*.tfbackend`) out of public repos if they contain secrets/ARNs—prefer local placeholders or CI secrets.
-- Use modules for repeatable architecture pieces and keep environment-level overrides separate (in `environments/*`).
-- Test changes in `dev` before promoting to `staging`.
+## ✍️ Contribution & License
+Feel free to fork the repo, add exercises or modules, or create pull requests.
+License: MIT
 
+---
 
-*Happy Terraforming!* 💚
-
+Happy Terraforming! 🏗️
 
