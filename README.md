@@ -67,19 +67,7 @@ This repository contains lab code, backend config files, and helper scripts crea
 - Use modules for repeatable architecture pieces and keep environment-level overrides separate (in `environments/*`).
 - Test changes in `dev` before promoting to `staging`.
 
----
-
-## 🧾 Attribution & License
-This repo is a personal/educational companion for the Udemy course. Course videos and instructor materials remain the property of the course author and Udemy. Code here is for learning and demonstration only—adapt and license as you wish.
-
----
-
-## ✍️ Customize for Yourself
-- Replace `https://github.com/<your-username>/<repo-name>.git` with your repo URL.
-- Add a `CONTRIBUTING.md` and `LICENSE` if you plan to share or collaborate publicly.
-- Optionally add CI workflows to run `terraform fmt`, `terraform validate`, and `tflint`.
-
----
 
 *Happy Terraforming!* 💚
+
 
