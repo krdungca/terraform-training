@@ -80,9 +80,8 @@ README.md          ← this file
 
 ---
 
-## ✍️ Contribution & License
-Feel free to fork the repo, add exercises or modules, or create pull requests.
-License: MIT
+## ✍️ Contribution 
+Feel free to fork the repo, add exercises or modules, or create pull requests
 
 ---
 
