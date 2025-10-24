@@ -28,7 +28,7 @@ README.md          ← this file
 ## 🚀 Getting started
 1. Clone this repository to your local machine.
    ```bash
-   git clone https://github.com/<your‑username>/terraform‑course.git
+   git clone https://github.com/krdungca/terraform‑course.git
    ```
 2. Navigate into the relevant directory (exercise or project).
 3. Configure your AWS credentials.
