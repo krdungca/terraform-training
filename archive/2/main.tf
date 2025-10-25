@@ -30,6 +30,33 @@ resource "aws_vpc" "main" {
   }
 }
 
+resource "aws_default_security_group" "default_sg" {
+  vpc_id = aws_vpc.main.id
+  ingress = [{
+    protocol         = "tcp"
+    from_port        = 80
+    to_port          = 80
+    cidr_blocks      = ["0.0.0.0/0"]
+    description      = "HTTP"
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    security_groups  = []
+    self             = false
+  }]
+
+  egress = [{
+    protocol         = "-1"
+    from_port        = 0
+    to_port          = 0
+    cidr_blocks      = ["0.0.0.0/0"]
+    description      = "All outbound"
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    security_groups  = []
+    self             = false
+  }]
+}
+
 resource "aws_route_table" "main_rtb" {
   vpc_id = aws_vpc.main.id
 
@@ -74,7 +101,10 @@ resource "aws_instance" "ec2" {
   instance_type               = "t2.micro"
   associate_public_ip_address = true
   key_name                    = "keypair4"
-  vpc_security_group_ids      = [aws_security_group.public_http_traffic.id]
+  vpc_security_group_ids = [
+    aws_security_group.public_http_traffic.id,
+    aws_default_security_group.default_sg.id
+  ]
   lifecycle {
     create_before_destroy = true
   }
@@ -89,22 +119,25 @@ resource "aws_security_group" "public_http_traffic" {
   description = "SG allowing 443 and 80"
   name        = "public-http-traffic"
   vpc_id      = aws_vpc.main.id
+
 }
 
 resource "aws_vpc_security_group_ingress_rule" "http_in" {
-  security_group_id = aws_security_group.public_http_traffic.id
-  cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 80
-  to_port           = 80
-  ip_protocol       = "tcp"
+  security_group_id            = aws_security_group.public_http_traffic.id
+  referenced_security_group_id = aws_default_security_group.default_sg.id
+  #cidr_ipv4         = "0.0.0.0/0" #static all
+  from_port   = 80
+  to_port     = 80
+  ip_protocol = "tcp"
 }
 
 resource "aws_vpc_security_group_ingress_rule" "https_in" {
-  security_group_id = aws_security_group.public_http_traffic.id
-  cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 443
-  to_port           = 443
-  ip_protocol       = "tcp"
+  security_group_id            = aws_security_group.public_http_traffic.id
+  referenced_security_group_id = aws_default_security_group.default_sg.id
+  #cidr_ipv4         = "0.0.0.0/0" static all
+  from_port   = 443
+  to_port     = 443
+  ip_protocol = "tcp"
 }
 
 
