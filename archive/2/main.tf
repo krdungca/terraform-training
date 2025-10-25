@@ -12,6 +12,11 @@ terraform {
   }
 }
 
+locals {
+  common_tags = {
+    Project = "PROJECT-00"
+  }
+}
 
 provider "aws" {
   region = "ap-southeast-1"
@@ -21,6 +26,7 @@ resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
   tags = {
     Name = "pj00-main-vpc"
+    Project = local.common_tags.Project
   }
 }
 
@@ -34,6 +40,7 @@ resource "aws_route_table" "main_rtb" {
 
   tags = {
     Name = "pj00-main-rtb"
+    Project = local.common_tags.Project
   }
 }
 
@@ -48,6 +55,7 @@ resource "aws_subnet" "main_subnet" {
   map_public_ip_on_launch = true
   tags = {
     Name = "pj00-main-subnet"
+    Project = local.common_tags.Project
   }
 }
 
@@ -55,6 +63,7 @@ resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
   tags = {
     Name = "pj00-main-igw"
+    Project = local.common_tags.Project
   }
 }
 
@@ -71,6 +80,7 @@ resource "aws_instance" "ec2" {
   }
   tags = {
     Name = "pj00-ec2"
+    Project = local.common_tags.Project
   }
 }
 
@@ -126,6 +136,7 @@ resource "aws_security_group" "pj00_main_sg" {
 
   tags = {
     Name = "pj00-main-sg"
+    Project = local.common_tags.Project
   }
 
 }
