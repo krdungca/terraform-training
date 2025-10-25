@@ -59,8 +59,9 @@ resource "aws_internet_gateway" "gw" {
 }
 
 resource "aws_instance" "ec2" {
-  subnet_id                   = aws_subnet.main_subnet.id
-  ami                         = "ami-0933f1385008d33c4"
+  subnet_id = aws_subnet.main_subnet.id
+  #ami                         = "ami-0933f1385008d33c4" #ephemeral free-tier ami
+  ami                         = "ami-0e8c0174b6f004df5" #bitnami AMI
   instance_type               = "t2.micro"
   associate_public_ip_address = true
   key_name                    = "keypair4"
