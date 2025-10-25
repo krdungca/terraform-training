@@ -25,7 +25,7 @@ provider "aws" {
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
   tags = {
-    Name = "pj00-main-vpc"
+    Name    = "pj00-main-vpc"
     Project = local.common_tags.Project
   }
 }
@@ -39,7 +39,7 @@ resource "aws_route_table" "main_rtb" {
   }
 
   tags = {
-    Name = "pj00-main-rtb"
+    Name    = "pj00-main-rtb"
     Project = local.common_tags.Project
   }
 }
@@ -54,7 +54,7 @@ resource "aws_subnet" "main_subnet" {
   cidr_block              = "10.0.0.0/24"
   map_public_ip_on_launch = true
   tags = {
-    Name = "pj00-main-subnet"
+    Name    = "pj00-main-subnet"
     Project = local.common_tags.Project
   }
 }
@@ -62,7 +62,7 @@ resource "aws_subnet" "main_subnet" {
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
   tags = {
-    Name = "pj00-main-igw"
+    Name    = "pj00-main-igw"
     Project = local.common_tags.Project
   }
 }
@@ -74,17 +74,41 @@ resource "aws_instance" "ec2" {
   instance_type               = "t2.micro"
   associate_public_ip_address = true
   key_name                    = "keypair4"
-  vpc_security_group_ids      = [aws_security_group.pj00_main_sg.id]
+  vpc_security_group_ids      = [aws_security_group.public_http_traffic.id]
   lifecycle {
     create_before_destroy = true
   }
   tags = {
-    Name = "pj00-ec2"
+    Name    = "pj00-ec2"
     Project = local.common_tags.Project
   }
 }
 
 
+resource "aws_security_group" "public_http_traffic" {
+  description = "SG allowing 443 and 80"
+  name        = "public-http-traffic"
+  vpc_id      = aws_vpc.main.id
+}
+
+resource "aws_vpc_security_group_ingress_rule" "http_in" {
+  security_group_id = aws_security_group.public_http_traffic.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 80
+  to_port           = 80
+  ip_protocol       = "tcp"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "https_in" {
+  security_group_id = aws_security_group.public_http_traffic.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 443
+  to_port           = 443
+  ip_protocol       = "tcp"
+}
+
+
+/* 
 resource "aws_security_group" "pj00_main_sg" {
   name   = "pj00-main-sg"
   vpc_id = aws_vpc.main.id
@@ -141,7 +165,7 @@ resource "aws_security_group" "pj00_main_sg" {
 
 }
 
-
+ */
 
 
 output "output_details" {
@@ -153,7 +177,7 @@ output "output_details" {
     igw_id        = aws_internet_gateway.gw.id
     ec2_id        = aws_instance.ec2.id
     ec2_public_ip = aws_instance.ec2.public_ip
-    sg_id         = aws_security_group.pj00_main_sg.id
+    sg_id         = aws_security_group.public_http_traffic.id
   }
 
 
